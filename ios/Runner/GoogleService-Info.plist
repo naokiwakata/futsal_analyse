@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>888724425183-cr12k3kt7phqigmui8lhldukgl0mr2mi.apps.googleusercontent.com</string>
+	<string>888724425183-8j357u2ahp6r4hdtf1cr3ok94bo91rmt.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.888724425183-cr12k3kt7phqigmui8lhldukgl0mr2mi</string>
+	<string>com.googleusercontent.apps.888724425183-8j357u2ahp6r4hdtf1cr3ok94bo91rmt</string>
 	<key>API_KEY</key>
 	<string>AIzaSyCZrrZ58KNFG5rKFQEVNC0dQRA2lDEcbFw</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.example.testBuild</string>
+	<string>com.futsal-analyse</string>
 	<key>PROJECT_ID</key>
 	<string>futsal-analysis</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:888724425183:ios:00c6b0e0b32923a1845c6a</string>
+	<string>1:888724425183:ios:a70b58138e53cf09845c6a</string>
 </dict>
 </plist>
