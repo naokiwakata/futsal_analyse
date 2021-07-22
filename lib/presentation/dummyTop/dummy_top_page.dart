@@ -26,16 +26,12 @@ class DummyTopPage extends StatelessWidget {
                   Icons.settings,
                 ),
                 onPressed: () async {
-                  if (model.authRepository.isLogin) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (BuildContext context) => ProfileSettingPage(),
-                      ),
-                    );
-                  } else {
-                    showLoginDialog(context);
-                  }
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => ProfileSettingPage(),
+                    ),
+                  );
                 },
               ),
               actions: [
