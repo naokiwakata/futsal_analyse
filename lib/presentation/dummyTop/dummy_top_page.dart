@@ -393,7 +393,7 @@ class DummyTopPage extends StatelessWidget {
         _tabPage(
           currentIndex,
           3,
-          Container(
+        /*  Container(
             child: Center(
               child: InkWell(
                 onTap: () {
@@ -407,7 +407,8 @@ class DummyTopPage extends StatelessWidget {
                 child: Text('作戦ボードに飛ぶ'),
               ),
             ),
-          ),
+          ),*/
+          StrategyBoardPage(),
         ),
       ],
     );
