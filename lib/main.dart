@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:test_build/presentation/dummyTop/dummy_top_page.dart';
 import 'package:test_build/presentation/introduction/introduction_model.dart';
 import 'package:test_build/presentation/introduction/introduction_page.dart';
-import 'package:test_build/presentation/top/top_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

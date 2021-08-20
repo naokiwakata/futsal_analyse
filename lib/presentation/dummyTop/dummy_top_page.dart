@@ -4,9 +4,10 @@ import 'package:test_build/presentation/dummyTop/dummy_top_model.dart';
 import 'package:test_build/presentation/lobby/lobby_page.dart';
 import 'package:test_build/presentation/profile_setting/profile_setting_page.dart';
 import 'package:test_build/presentation/register_team/register_team_page.dart';
+import 'package:test_build/presentation/strategy_board/strategy_board_page.dart';
 
 class DummyTopPage extends StatelessWidget {
-  final List<String> _tabNames = ["試合", "選手", "分析"];
+  final List<String> _tabNames = ["試合", "選手", "分析", "作戦ボード"];
 
   @override
   Widget build(BuildContext context) {
@@ -74,6 +75,10 @@ class DummyTopPage extends StatelessWidget {
                   BottomNavigationBarItem(
                     icon: Icon(Icons.auto_graph),
                     label: _tabNames[2],
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.dashboard),
+                    label: _tabNames[3],
                   ),
                 ],
               ),
@@ -381,6 +386,25 @@ class DummyTopPage extends StatelessWidget {
                     icon: const Icon(Icons.add, color: Colors.white),
                   ),
                 ],
+              ),
+            ),
+          ),
+        ),
+        _tabPage(
+          currentIndex,
+          3,
+          Container(
+            child: Center(
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => StrategyBoardPage(),
+                    ),
+                  );
+                },
+                child: Text('作戦ボードに飛ぶ'),
               ),
             ),
           ),

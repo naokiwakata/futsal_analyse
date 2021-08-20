@@ -13,7 +13,7 @@ class TopPage extends StatelessWidget {
   TopPage({this.category});
   final Categorys category;
 
-  final List<String> _tabNames = ["試合", "選手", "分析"];
+  final List<String> _tabNames = ["試合", "選手", "分析","ボード"];
 
   @override
   Widget build(BuildContext context) {
@@ -78,6 +78,10 @@ class TopPage extends StatelessWidget {
                     icon: Icon(Icons.auto_graph),
                     label: _tabNames[2],
                   ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.dashboard),
+                    label: _tabNames[3],
+                  ),
                 ],
               ),
             ),
@@ -108,6 +112,13 @@ class TopPage extends StatelessWidget {
         _tabPage(
           currentIndex,
           2,
+          AnalysisPage(
+            category: category,
+          ),
+        ),
+        _tabPage(
+          currentIndex,
+          3,
           AnalysisPage(
             category: category,
           ),
