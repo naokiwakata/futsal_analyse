@@ -16,11 +16,26 @@ class StrategyBoardModel extends ChangeNotifier {
 
   Cursor cursorBall = Cursor(50, 300);
 
-
-
-  void changePoint(Cursor cursor,double dx, double dy) {
+  void changePoint(Cursor cursor, double dx, double dy) {
     cursor.x += dx;
     cursor.y += dy;
+    notifyListeners();
+  }
+
+  void clearPoint() {
+    cursorRed1 = Cursor(50, 50);
+    cursorRed2 = Cursor(50, 100);
+    cursorRed3 = Cursor(50, 150);
+    cursorRed4 = Cursor(50, 200);
+    cursorRed5 = Cursor(50, 250);
+
+    cursorBlue1 = Cursor(50, 350);
+    cursorBlue2 = Cursor(50, 400);
+    cursorBlue3 = Cursor(50, 450);
+    cursorBlue4 = Cursor(50, 500);
+    cursorBlue5 = Cursor(50, 550);
+
+    cursorBall = Cursor(50, 300);
     notifyListeners();
   }
 }

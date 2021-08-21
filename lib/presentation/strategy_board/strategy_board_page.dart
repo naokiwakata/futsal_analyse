@@ -10,6 +10,13 @@ class StrategyBoardPage extends StatelessWidget {
       create: (_) => StrategyBoardModel(),
       child: Consumer<StrategyBoardModel>(builder: (context, model, child) {
         return Scaffold(
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              model.clearPoint();
+            },
+            child: const Icon(Icons.clear),
+            backgroundColor: Colors.redAccent,
+          ),
           body: Stack(
             children: [
               Column(
