@@ -236,7 +236,6 @@ class AnalyseParticipationPage extends StatelessWidget {
           final uniformNumber = rankingList[index].uniformNumber;
           final participation = rankingList[index].participation;
           final tokutenParticipation = rankingList[index].tokutenParticipation;
-          final shittenParticipation = rankingList[index].shittenParticipation;
           final rankingNumber = index + 1;
           return Container(
             decoration: BoxDecoration(
@@ -383,7 +382,6 @@ class AnalyseParticipationPage extends StatelessWidget {
           final playerName = rankingList[index].playerName;
           final uniformNumber = rankingList[index].uniformNumber;
           final participation = rankingList[index].participation;
-          final tokutenParticipation = rankingList[index].tokutenParticipation;
           final shittenParticipation = rankingList[index].shittenParticipation;
           final rankingNumber = index + 1;
           return Container(
