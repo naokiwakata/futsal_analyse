@@ -6,7 +6,6 @@ import 'package:test_build/presentation/dummyTop/dummy_top_page.dart';
 import 'package:test_build/presentation/lobby/lobby_page.dart';
 import 'package:test_build/presentation/profile_setting/profile_setting_model.dart';
 import 'package:test_build/service/service/dialog_helper.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class ProfileSettingPage extends StatelessWidget {
   @override

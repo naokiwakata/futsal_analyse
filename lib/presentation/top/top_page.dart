@@ -1,19 +1,20 @@
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:test_build/domain/category.dart';
 import 'package:test_build/presentation/player_list/player_list_page.dart';
 import 'package:test_build/presentation/profile_setting/profile_setting_page.dart';
 import 'package:test_build/presentation/register_team/register_team_page.dart';
+import 'package:test_build/presentation/strategy_board/strategy_board_page.dart';
 import 'package:test_build/presentation/top/analysis_page.dart';
 import 'package:test_build/presentation/top/input_page.dart';
 import 'package:test_build/presentation/top/top_model.dart';
 
 class TopPage extends StatelessWidget {
   TopPage({this.category});
+
   final Categorys category;
 
-  final List<String> _tabNames = ["試合", "選手", "分析"];
+  final List<String> _tabNames = ["試合", "選手", "分析", "作戦ボード"];
 
   @override
   Widget build(BuildContext context) {
@@ -78,6 +79,10 @@ class TopPage extends StatelessWidget {
                     icon: Icon(Icons.auto_graph),
                     label: _tabNames[2],
                   ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.dashboard),
+                    label: _tabNames[3],
+                  ),
                 ],
               ),
             ),
@@ -111,6 +116,11 @@ class TopPage extends StatelessWidget {
           AnalysisPage(
             category: category,
           ),
+        ),
+        _tabPage(
+          currentIndex,
+          3,
+          StrategyBoardPage(),
         ),
       ],
     );
