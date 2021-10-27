@@ -1,3 +1,4 @@
+import 'package:fcm_config/fcm_config.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:test_build/presentation/dummyTop/dummy_top_model.dart';
@@ -12,7 +13,7 @@ class DummyTopPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<DummyTopModel>(
-      create: (_) => DummyTopModel(),
+      create: (_) => DummyTopModel()..initState(),
       child: Consumer<DummyTopModel>(
         builder: (context, model, child) {
           return Scaffold(
@@ -100,7 +101,30 @@ class DummyTopPage extends StatelessWidget {
           Container(
             child: Scaffold(
               body: Center(
-                child: Text('カテゴリーが未選択です'),
+                child: FCMNotificationListener(
+                    child: Text('カテゴリーが未選択です'),
+                    onNotification: (RemoteMessage notification, _) async {
+                      await showDialog(
+                        context: context,
+                        builder: (_) {
+                          return AlertDialog(
+                            title: Text("通知"),
+                            content: Text("通知がきました"),
+                            actions: <Widget>[
+                              // ボタン領域
+                              TextButton(
+                                child: Text("Cancel"),
+                                onPressed: () => Navigator.pop(context),
+                              ),
+                              TextButton(
+                                child: Text("OK"),
+                                onPressed: () => Navigator.pop(context),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    }),
               ),
               floatingActionButton: Column(
                 verticalDirection: VerticalDirection.up, // childrenの先頭を下に配置
@@ -393,7 +417,7 @@ class DummyTopPage extends StatelessWidget {
         _tabPage(
           currentIndex,
           3,
-        /*  Container(
+          /*  Container(
             child: Center(
               child: InkWell(
                 onTap: () {
