@@ -67,10 +67,10 @@ class PlayerListPage extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (BuildContext context) => PlayerProfilePage(
-                          player: player,
-                        ),
-                    ),
+                  builder: (BuildContext context) => PlayerProfilePage(
+                    player: player,
+                  ),
+                ),
               );
             },
             child: Slidable(
@@ -329,6 +329,10 @@ class PlayerListPage extends StatelessWidget {
         return Container();
       },
       transitionBuilder: (context, animation1, animation2, widget) {
+        final nameController = TextEditingController(text: player.playerName);
+        final numberController =
+            TextEditingController(text: player.uniformNumber.toString());
+
         return Center(
           child: Material(
             type: MaterialType.transparency,
@@ -343,19 +347,13 @@ class PlayerListPage extends StatelessWidget {
               child: Column(
                 children: [
                   Text('編集する'),
-                  TextField(
-                    onChanged: (value) {
-                      model.playerName = value;
-                    },
-                    decoration: InputDecoration(hintText: player.playerName),
+                  TextFormField(
+                    controller: nameController,
+                    textInputAction: TextInputAction.next,
                   ),
-                  TextField(
+                  TextFormField(
+                    controller: numberController,
                     keyboardType: TextInputType.number,
-                    onChanged: (value) {
-                      model.uniformNumber = value;
-                    },
-                    decoration: InputDecoration(
-                        hintText: player.uniformNumber.toString()),
                   ),
                   SizedBox(
                     height: 10,
@@ -394,9 +392,11 @@ class PlayerListPage extends StatelessWidget {
                           style: TextStyle(color: Colors.white),
                         ),
                         onPressed: () async {
-                          if (model.playerName != "" &&
-                              model.uniformNumber != "") {
+                          if (nameController.text != "" &&
+                              numberController.text != "") {
                             Navigator.pop(context);
+                            model.changePlayerName(nameController.text);
+                            model.changeUniformNumber(numberController.text);
                             await model.updatePlayer(player, context);
                             await model.initState(category);
                             model.clearTextField();

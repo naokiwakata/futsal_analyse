@@ -52,6 +52,11 @@ class PlayerListModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setInitialValue(String playerName,String uniformNumber){
+    this.playerName = playerName;
+    this.uniformNumber = uniformNumber;
+    notifyListeners();
+  }
   void onSelectedPosition(int index) {
     position = positionList[index];
     notifyListeners();
@@ -60,6 +65,14 @@ class PlayerListModel extends ChangeNotifier {
   void clearTextField() {
     uniformNumber = null;
     playerName = '';
+    notifyListeners();
+  }
+  void changePlayerName(String playerName){
+    this.playerName = playerName;
+    notifyListeners();
+  }
+  void changeUniformNumber(String uniformNumber){
+    this.uniformNumber = uniformNumber;
     notifyListeners();
   }
 
