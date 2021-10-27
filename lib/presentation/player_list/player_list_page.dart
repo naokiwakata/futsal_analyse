@@ -326,8 +326,6 @@ class PlayerListPage extends StatelessWidget {
       barrierLabel: '',
       context: context,
       pageBuilder: (context, animation1, animation2) {
-        model.setInitialValue(
-            player.playerName, player.uniformNumber.toString());
         return Container();
       },
       transitionBuilder: (context, animation1, animation2, widget) {
