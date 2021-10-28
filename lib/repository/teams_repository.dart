@@ -259,7 +259,7 @@ class TeamsRepository {
         'allShoot': 0,
         'allShot': 0,
         'teamsUid': _teams.uid,
-        'firstUpdate': true,
+        'category':category.categoryName,
       },
     );
   }

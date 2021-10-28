@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 
 class InputGameDataPage extends StatelessWidget {
   InputGameDataPage({this.game, this.category});
-  
+
   final Game game;
   final Categorys category;
   final List<String> _tabNames = [
@@ -19,7 +19,7 @@ class InputGameDataPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<InputGameDataModel>(
-      create: (_) => InputGameDataModel()..initState(game,category),
+      create: (_) => InputGameDataModel()..initState(game, category),
       child: Consumer<InputGameDataModel>(
         builder: (context, model, child) {
           return Scaffold(
@@ -27,12 +27,8 @@ class InputGameDataPage extends StatelessWidget {
               centerTitle: true,
               leading: IconButton(
                 icon: const Icon(Icons.clear),
-                onPressed: () async{
-                  if (game.firstUpdate!=null && game.firstUpdate) {
-                    await _showFinishDialog(context, model);
-                  } else {
-                    Navigator.pop(context);
-                  }
+                onPressed: () async {
+                  await _showFinishDialog(context, model);
                 },
               ),
               title: Text(
