@@ -8,6 +8,9 @@ class Game {
   int shitten;
   int allShoot;
   int allShot;
+  bool firstUpdate;
+  String teamsUid;
+
 
   Game(DocumentSnapshot doc) {
     uid = doc.id;
@@ -17,5 +20,7 @@ class Game {
     shitten = doc.data()['shitten'];
     allShoot = doc.data()['allShoot'];
     allShot = doc.data()['allShot'];
+    firstUpdate = doc.data()['firstUpdate'];
+    teamsUid = doc.data()['teamsUid'];
   }
 }

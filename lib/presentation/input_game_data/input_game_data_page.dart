@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 
 class InputGameDataPage extends StatelessWidget {
   InputGameDataPage({this.game, this.category});
+  
   final Game game;
   final Categorys category;
   final List<String> _tabNames = [
@@ -18,12 +19,22 @@ class InputGameDataPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<InputGameDataModel>(
-      create: (_) => InputGameDataModel(),
+      create: (_) => InputGameDataModel()..initState(game,category),
       child: Consumer<InputGameDataModel>(
         builder: (context, model, child) {
           return Scaffold(
             appBar: AppBar(
               centerTitle: true,
+              leading: IconButton(
+                icon: const Icon(Icons.clear),
+                onPressed: () async{
+                  if (game.firstUpdate!=null && game.firstUpdate) {
+                    await _showFinishDialog(context, model);
+                  } else {
+                    Navigator.pop(context);
+                  }
+                },
+              ),
               title: Text(
                 'VS ${game.opponentName} 試合詳細',
                 style: TextStyle(fontSize: 20),
@@ -84,6 +95,33 @@ class InputGameDataPage extends StatelessWidget {
       visible: currentIndex == tabIndex,
       maintainState: true,
       child: page,
+    );
+  }
+
+  _showFinishDialog(BuildContext context, InputGameDataModel model) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('入力を終了しますか？'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('キャンセル'),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            TextButton(
+              child: Text('OK'),
+              onPressed: () async {
+                model.finishFirstInput();
+                Navigator.pop(context);
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }
