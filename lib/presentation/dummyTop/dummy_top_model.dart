@@ -13,11 +13,13 @@ class DummyTopModel extends ChangeNotifier {
   Future initState() async {
     token = await FCMConfig.messaging.getToken();
     final team = await teamRepository.fetch();
-
-    await FirebaseFirestore.instance.collection('teams').doc(team.uid).update({
-      'tokens': FieldValue.arrayUnion([token]),
-    });
-    print(token);
+    if(team!=null){
+      await FirebaseFirestore.instance.collection('teams').doc(team.uid).update({
+        'tokens': FieldValue.arrayUnion([token]),
+      });
+      print(token);
+    }
+    notifyListeners();
   }
 
   void onTabTapped(int index) async {
