@@ -7,14 +7,15 @@ import 'package:test_build/presentation/introduction/introduction_model.dart';
 import 'package:test_build/presentation/introduction/introduction_page.dart';
 
 void main() async {
-  FCMConfig.instance.init(onBackgroundMessage:_fcmBackgroundHandler);
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  FCMConfig.instance.init(onBackgroundMessage:_fcmBackgroundHandler);
   runApp(MyApp());
 }
 
 Future<void> _fcmBackgroundHandler(RemoteMessage message) async {
-  print("Handling a background message: ${message.messageId}");
+  await Firebase.initializeApp();
+  print("バックグラウンドメッセージ");
 }
 
 class MyApp extends StatelessWidget {
