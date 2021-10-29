@@ -139,7 +139,6 @@ class StrategyBoardPage extends StatelessWidget {
       left: cursor.x,
       child: GestureDetector(
         onPanUpdate: (DragUpdateDetails details) {
-          print(details.delta);
           model.changePoint(cursor, details.delta.dx, details.delta.dy);
         },
         child: Container(
