@@ -74,6 +74,13 @@ class InputGameDataModel extends ChangeNotifier {
     '崩し',
     'その他',
   ];
+
+  Future initState(Game game, Categorys category) {
+    this.game = game;
+    this.category = category;
+    notifyListeners();
+  }
+
   Future initGameDetailState(Categorys category, Game game) async {
     startLoading();
     this.game = game;
@@ -95,6 +102,11 @@ class InputGameDataModel extends ChangeNotifier {
   Future getTeam() async {
     team = await _teamsRepository.getTeam(team: team);
     print(team.teamName);
+    notifyListeners();
+  }
+
+  Future finishFirstInput() {
+    _teamsRepository.finishInputGame(category, game);
     notifyListeners();
   }
 

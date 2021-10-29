@@ -258,6 +258,23 @@ class TeamsRepository {
         'shitten': 0,
         'allShoot': 0,
         'allShot': 0,
+        'teamsUid': _teams.uid,
+        'category':category.categoryName,
+      },
+    );
+  }
+
+  Future<void> finishInputGame(Categorys category, Game game) async {
+    _firestore
+        .collection('teams')
+        .doc(_teams.uid)
+        .collection('category')
+        .doc(category.uid)
+        .collection('game')
+        .doc(game.uid)
+        .update(
+      {
+        'firstUpdate': false,
       },
     );
   }

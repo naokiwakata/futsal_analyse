@@ -125,8 +125,8 @@ class InputPage extends StatelessWidget {
               ),
             ],
             child: InkWell(
-              onTap: () {
-                Navigator.push(
+              onTap: () async{
+                await Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (BuildContext context) => InputGameDataPage(
@@ -135,6 +135,7 @@ class InputPage extends StatelessWidget {
                           ),
                       fullscreenDialog: true),
                 );
+                model.getGame();
               },
               child: Column(
                 children: [

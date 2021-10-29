@@ -1,3 +1,4 @@
+import 'package:fcm_config/fcm_config.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -8,7 +9,13 @@ import 'package:test_build/presentation/introduction/introduction_page.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  FCMConfig.instance.init(onBackgroundMessage:_fcmBackgroundHandler);
   runApp(MyApp());
+}
+
+Future<void> _fcmBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+  print("バックグラウンドメッセージ");
 }
 
 class MyApp extends StatelessWidget {
