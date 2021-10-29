@@ -105,11 +105,6 @@ class InputGameDataModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future finishFirstInput() {
-    _teamsRepository.finishInputGame(category, game);
-    notifyListeners();
-  }
-
   void startLoading() {
     loadingData = true;
     notifyListeners();

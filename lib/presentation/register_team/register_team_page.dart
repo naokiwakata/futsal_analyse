@@ -139,7 +139,7 @@ class RegisterCategoryPage extends StatelessWidget {
               },
               child: Column(
                 children: [
-                  Container(
+                  Card(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -177,11 +177,6 @@ class RegisterCategoryPage extends StatelessWidget {
                         ),
                       ],
                     ),
-                  ),
-                  Divider(
-                    height: 0,
-                    thickness: 2,
-                    color: Theme.of(context).dividerColor,
                   ),
                 ],
               ),

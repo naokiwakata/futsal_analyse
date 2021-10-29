@@ -13,6 +13,7 @@ import 'package:provider/provider.dart';
 
 class InputPage extends StatelessWidget {
   InputPage({this.category});
+
   final Categorys category;
 
   @override
@@ -125,7 +126,7 @@ class InputPage extends StatelessWidget {
               ),
             ],
             child: InkWell(
-              onTap: () async{
+              onTap: () async {
                 await Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -139,7 +140,8 @@ class InputPage extends StatelessWidget {
               },
               child: Column(
                 children: [
-                  Container(
+                  Card(
+                    elevation: 5,
                     child: Container(
                       height: 60,
                       padding: EdgeInsets.all(13.0),

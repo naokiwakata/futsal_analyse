@@ -25,12 +25,6 @@ class InputGameDataPage extends StatelessWidget {
           return Scaffold(
             appBar: AppBar(
               centerTitle: true,
-              leading: IconButton(
-                icon: const Icon(Icons.clear),
-                onPressed: () async {
-                  await _showFinishDialog(context, model);
-                },
-              ),
               title: Text(
                 'VS ${game.opponentName} 試合詳細',
                 style: TextStyle(fontSize: 20),
@@ -91,33 +85,6 @@ class InputGameDataPage extends StatelessWidget {
       visible: currentIndex == tabIndex,
       maintainState: true,
       child: page,
-    );
-  }
-
-  _showFinishDialog(BuildContext context, InputGameDataModel model) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text('入力を終了しますか？'),
-          actions: <Widget>[
-            TextButton(
-              child: Text('キャンセル'),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-            TextButton(
-              child: Text('OK'),
-              onPressed: () async {
-                model.finishFirstInput();
-                Navigator.pop(context);
-                Navigator.pop(context);
-              },
-            ),
-          ],
-        );
-      },
     );
   }
 }
