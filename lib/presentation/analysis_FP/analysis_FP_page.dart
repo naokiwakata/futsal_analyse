@@ -125,7 +125,7 @@ class AnalyseFPRankingPage extends StatelessWidget {
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
                         playerName,
-                        style: TextStyle(fontSize: 18),
+                        style: TextStyle(fontSize: 16),
                       ),
                     ),
                   ],
@@ -290,7 +290,7 @@ class AnalyseFPRankingPage extends StatelessWidget {
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
                         playerName,
-                        style: TextStyle(fontSize: 18),
+                        style: TextStyle(fontSize: 16),
                       ),
                     ),
                   ],
@@ -455,7 +455,7 @@ class AnalyseFPRankingPage extends StatelessWidget {
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
                         playerName,
-                        style: TextStyle(fontSize: 18),
+                        style: TextStyle(fontSize: 16),
                       ),
                     ),
                   ],

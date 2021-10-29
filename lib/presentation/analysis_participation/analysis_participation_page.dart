@@ -119,7 +119,7 @@ class AnalyseParticipationPage extends StatelessWidget {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.symmetric(vertical: 8),
                       child: Text(
                         uniformNumber.toString(),
                         style: TextStyle(fontSize: 14),
@@ -129,7 +129,7 @@ class AnalyseParticipationPage extends StatelessWidget {
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
                         playerName,
-                        style: TextStyle(fontSize: 18),
+                        style: TextStyle(fontSize: 16),
                       ),
                     ),
                   ],
@@ -263,7 +263,7 @@ class AnalyseParticipationPage extends StatelessWidget {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.symmetric(vertical: 8),
                       child: Text(
                         uniformNumber.toString(),
                         style: TextStyle(fontSize: 14),
@@ -273,7 +273,7 @@ class AnalyseParticipationPage extends StatelessWidget {
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
                         playerName,
-                        style: TextStyle(fontSize: 18),
+                        style: TextStyle(fontSize: 16),
                       ),
                     ),
                   ],
@@ -410,7 +410,7 @@ class AnalyseParticipationPage extends StatelessWidget {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.symmetric(vertical: 8),
                       child: Text(
                         uniformNumber.toString(),
                         style: TextStyle(fontSize: 14),
@@ -420,7 +420,7 @@ class AnalyseParticipationPage extends StatelessWidget {
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
                         playerName,
-                        style: TextStyle(fontSize: 18),
+                        style: TextStyle(fontSize: 16),
                       ),
                     ),
                   ],
