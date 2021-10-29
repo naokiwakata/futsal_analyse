@@ -139,7 +139,8 @@ class InputPage extends StatelessWidget {
               },
               child: Column(
                 children: [
-                  Container(
+                  Card(
+                    elevation: 5,
                     child: Container(
                       height: 60,
                       padding: EdgeInsets.all(13.0),
