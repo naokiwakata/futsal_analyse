@@ -33,18 +33,40 @@ class AnalyseGoalShootPage extends StatelessWidget {
                       Tab(text: '得点数'),
                       Tab(text: '失点数'),
                       Tab(text: 'シュート'),
-                      Tab(
-                        text: '被シュート',
-                      ),
+                      Tab(text: '被シュート'),
                     ],
                   ),
                   Expanded(
                     child: TabBarView(
                       children: [
-                        _tokutenTab(model),
-                        _shittenTab(model),
-                        _shootTab(model),
-                        _shotTab(model),
+                        _graphTab(
+                          model,
+                          model.tokutenList,
+                          '全${model.allTokuten}ゴール',
+                          model.avgTokuten.toStringAsFixed(1),
+                          charts.MaterialPalette.deepOrange.shadeDefault,
+                        ),
+                        _graphTab(
+                          model,
+                          model.shittenList,
+                          '全${model.allShitten}失点',
+                          model.avgShitten.toStringAsFixed(1),
+                          charts.MaterialPalette.blue.shadeDefault,
+                        ),
+                        _graphTab(
+                          model,
+                          model.shootList,
+                          '全${model.allShoot}本',
+                          model.avgShoot.toStringAsFixed(1),
+                          charts.MaterialPalette.pink.shadeDefault,
+                        ),
+                        _graphTab(
+                          model,
+                          model.shotList,
+                          '全${model.allShot}本',
+                          model.avgShot.toStringAsFixed(1),
+                          charts.MaterialPalette.cyan.shadeDefault,
+                        ),
                       ],
                     ),
                   )
@@ -57,354 +79,102 @@ class AnalyseGoalShootPage extends StatelessWidget {
     );
   }
 
-  Widget _tokutenTab(AnalyseGoalShootModel model) {
-    return Scaffold(
-      body: !model.loadingData
-          ? Column(
+  Widget _graphTab(AnalyseGoalShootModel model, List<GameData> gameList,
+      String allPoint, String avg, charts.Color color) {
+    if (model.loadingData) {
+      return Center(
+        child: CircularProgressIndicator(
+          color: Colors.redAccent,
+        ),
+      );
+    } else {
+      return Column(
+        children: [
+          SizedBox(
+            height: 10,
+          ),
+          Container(
+            child: Column(
               children: [
+                Text(
+                  allPoint,
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                ),
                 SizedBox(
                   height: 10,
                 ),
-                Container(
-                  child: Column(
-                    children: [
-                      Text(
-                        '全 ${model.allTokuten.toString()}ゴール',
-                        style: TextStyle(
-                          fontSize: 20,
-                        ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      avg,
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
                       ),
-                      SizedBox(
-                        height: 10,
+                    ),
+                    Text(
+                      '　/1試合',
+                      style: TextStyle(
+                        fontSize: 15,
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            model.avgTokuten.toStringAsFixed(1),
-                            style: TextStyle(
-                              fontSize: 22,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            '点　/1試合',
-                            style: TextStyle(
-                              fontSize: 15,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    padding: EdgeInsets.only(left: 8, right: 8),
-                    child: model.tokutenList.isNotEmpty
-                        ? Stack(
-                            children: [
-                              charts.BarChart(
-                                _createScoreData(
-                                    model.tokutenList,
-                                    charts.MaterialPalette.deepOrange
-                                        .shadeDefault),
-                                domainAxis: new charts.OrdinalAxisSpec(
-                                  renderSpec: new charts.SmallTickRendererSpec(
-                                    labelStyle: new charts.TextStyleSpec(
-                                      color: charts.MaterialPalette.white,
-                                    ),
-                                    lineStyle: new charts.LineStyleSpec(
-                                        color: charts.MaterialPalette.white),
-                                  ),
-                                ),
-                                primaryMeasureAxis: new charts.NumericAxisSpec(
-                                  renderSpec: new charts.GridlineRendererSpec(
-                                    labelStyle: new charts.TextStyleSpec(
-                                        color: charts.MaterialPalette.white),
-                                    lineStyle: new charts.LineStyleSpec(
-                                        color: charts.MaterialPalette.white),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          )
-                        : Center(
-                            child: Text('データなし'),
-                          ),
-                  ),
-                ),
-                SizedBox(
-                  height: 30,
+                    ),
+                  ],
                 ),
               ],
-            )
-          : Center(
-              child: CircularProgressIndicator(
-                color: Colors.redAccent,
-              ),
             ),
-    );
+          ),
+          _graph(
+            gameList,
+            color,
+          ),
+          SizedBox(
+            height: 30,
+          ),
+        ],
+      );
+    }
   }
 
-  Widget _shittenTab(AnalyseGoalShootModel model) {
-    return Scaffold(
-      body: !model.loadingData
-          ? Column(
-              children: [
-                SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  child: Column(
-                    children: [
-                      Text(
-                        '全 ${model.allShitten.toString()}失点',
-                        style: TextStyle(
-                          fontSize: 20,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            model.avgShitten.toStringAsFixed(1),
-                            style: TextStyle(
-                              fontSize: 22,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            '点　/1試合',
-                            style: TextStyle(
-                              fontSize: 15,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
+  Widget _graph(List<GameData> gameList, charts.Color color) {
+    if (gameList.isEmpty) {
+      return Center(
+        child: Text('データなし'),
+      );
+    }
+    return Expanded(
+      child: Container(
+        padding: EdgeInsets.only(left: 8, right: 8),
+        child: Stack(
+          children: [
+            charts.BarChart(
+              _createScoreData(
+                gameList,
+                color,
+              ),
+              domainAxis: new charts.OrdinalAxisSpec(
+                renderSpec: new charts.SmallTickRendererSpec(
+                  labelStyle: new charts.TextStyleSpec(
+                    color: charts.MaterialPalette.white,
                   ),
+                  lineStyle: new charts.LineStyleSpec(
+                      color: charts.MaterialPalette.white),
                 ),
-                Expanded(
-                  child: Container(
-                    padding: EdgeInsets.only(left: 8, right: 8),
-                    child: model.shittenList.isNotEmpty
-                        ? Stack(
-                            children: [
-                              charts.BarChart(
-                                _createScoreData(model.shittenList,
-                                    charts.MaterialPalette.blue.shadeDefault),
-                                domainAxis: new charts.OrdinalAxisSpec(
-                                  renderSpec: new charts.SmallTickRendererSpec(
-                                    labelStyle: new charts.TextStyleSpec(
-                                        color: charts.MaterialPalette.white),
-                                    lineStyle: new charts.LineStyleSpec(
-                                        color: charts.MaterialPalette.white),
-                                  ),
-                                ),
-                                primaryMeasureAxis: new charts.NumericAxisSpec(
-                                  renderSpec: new charts.GridlineRendererSpec(
-                                    labelStyle: new charts.TextStyleSpec(
-                                        color: charts.MaterialPalette.white),
-                                    lineStyle: new charts.LineStyleSpec(
-                                        color: charts.MaterialPalette.white),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          )
-                        : Center(
-                            child: Text('データなし'),
-                          ),
-                  ),
+              ),
+              primaryMeasureAxis: new charts.NumericAxisSpec(
+                renderSpec: new charts.GridlineRendererSpec(
+                  labelStyle: new charts.TextStyleSpec(
+                      color: charts.MaterialPalette.white),
+                  lineStyle: new charts.LineStyleSpec(
+                      color: charts.MaterialPalette.white),
                 ),
-                SizedBox(
-                  height: 30,
-                ),
-              ],
-            )
-          : Center(
-              child: CircularProgressIndicator(
-                color: Colors.redAccent,
               ),
             ),
-    );
-  }
-
-  Widget _shootTab(AnalyseGoalShootModel model) {
-    return Scaffold(
-      body: !model.loadingData
-          ? Column(
-              children: [
-                SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  child: Column(
-                    children: [
-                      Text(
-                        '全 ${model.allShoot.toString()}本',
-                        style: TextStyle(
-                          fontSize: 20,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            model.avgShoot.toStringAsFixed(1),
-                            style: TextStyle(
-                              fontSize: 22,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            '点　/1試合',
-                            style: TextStyle(
-                              fontSize: 15,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    padding: EdgeInsets.only(left: 8, right: 8),
-                    child: model.shootList.isNotEmpty
-                        ? Stack(
-                            children: [
-                              charts.BarChart(
-                                _createScoreData(model.shootList,
-                                    charts.MaterialPalette.pink.shadeDefault),
-                                domainAxis: new charts.OrdinalAxisSpec(
-                                  renderSpec: new charts.SmallTickRendererSpec(
-                                    labelStyle: new charts.TextStyleSpec(
-                                        color: charts.MaterialPalette.white),
-                                    lineStyle: new charts.LineStyleSpec(
-                                        color: charts.MaterialPalette.white),
-                                  ),
-                                ),
-                                primaryMeasureAxis: new charts.NumericAxisSpec(
-                                  renderSpec: new charts.GridlineRendererSpec(
-                                    labelStyle: new charts.TextStyleSpec(
-                                        color: charts.MaterialPalette.white),
-                                    lineStyle: new charts.LineStyleSpec(
-                                        color: charts.MaterialPalette.white),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          )
-                        : Center(
-                            child: Text('データなし'),
-                          ),
-                  ),
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-              ],
-            )
-          : Center(
-              child: CircularProgressIndicator(
-                color: Colors.redAccent,
-              ),
-            ),
-    );
-  }
-
-  Widget _shotTab(AnalyseGoalShootModel model) {
-    return Scaffold(
-      body: !model.loadingData
-          ? Column(
-              children: [
-                SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  child: Column(
-                    children: [
-                      Text(
-                        '全 ${model.allShot.toString()}本',
-                        style: TextStyle(
-                          fontSize: 20,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            model.avgShot.toStringAsFixed(1),
-                            style: TextStyle(
-                              fontSize: 22,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            '点　/1試合',
-                            style: TextStyle(
-                              fontSize: 15,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    padding: EdgeInsets.only(left: 8, right: 8),
-                    child: model.shotList.isNotEmpty
-                        ? Stack(
-                            children: [
-                              charts.BarChart(
-                                _createScoreData(model.shotList,
-                                    charts.MaterialPalette.cyan.shadeDefault),
-                                domainAxis: new charts.OrdinalAxisSpec(
-                                  renderSpec: new charts.SmallTickRendererSpec(
-                                    labelStyle: new charts.TextStyleSpec(
-                                        color: charts.MaterialPalette.white),
-                                    lineStyle: new charts.LineStyleSpec(
-                                        color: charts.MaterialPalette.white),
-                                  ),
-                                ),
-                                primaryMeasureAxis: new charts.NumericAxisSpec(
-                                  renderSpec: new charts.GridlineRendererSpec(
-                                    labelStyle: new charts.TextStyleSpec(
-                                        color: charts.MaterialPalette.white),
-                                    lineStyle: new charts.LineStyleSpec(
-                                        color: charts.MaterialPalette.white),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          )
-                        : Center(
-                            child: Text('データなし'),
-                          ),
-                  ),
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-              ],
-            )
-          : Center(
-              child: CircularProgressIndicator(
-                color: Colors.redAccent,
-              ),
-            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -415,7 +185,7 @@ class AnalyseGoalShootPage extends StatelessWidget {
         id: 'TokutenPattern',
         data: scoreData,
         colorFn: (_, __) => color,
-        domainFn: (GameData data, _) => data.opponentName,
+        domainFn: (GameData data, _) => data.opponentName.substring(0, 3),
         measureFn: (GameData data, _) => data.number,
       )
     ];

@@ -235,7 +235,7 @@ class TeamsRepository {
         .collection('category')
         .doc(category.uid)
         .collection("game")
-        .orderBy('gameDate', descending: true)
+        .orderBy('gameDate', descending: false)
         .get();
     final gameList = snapshot.docs.map((doc) => Game(doc)).toList();
     return gameList;
