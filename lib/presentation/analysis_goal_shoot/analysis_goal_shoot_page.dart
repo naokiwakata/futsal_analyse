@@ -93,38 +93,36 @@ class AnalyseGoalShootPage extends StatelessWidget {
           SizedBox(
             height: 10,
           ),
-          Container(
-            child: Column(
-              children: [
-                Text(
-                  allPoint,
-                  style: TextStyle(
-                    fontSize: 20,
+          Column(
+            children: [
+              Text(
+                allPoint,
+                style: TextStyle(
+                  fontSize: 20,
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    avg,
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      avg,
-                      style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                      ),
+                  Text(
+                    '　/1試合',
+                    style: TextStyle(
+                      fontSize: 15,
                     ),
-                    Text(
-                      '　/1試合',
-                      style: TextStyle(
-                        fontSize: 15,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
+                  ),
+                ],
+              ),
+            ],
           ),
           _graph(
             gameList,
