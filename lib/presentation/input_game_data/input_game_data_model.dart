@@ -75,7 +75,7 @@ class InputGameDataModel extends ChangeNotifier {
     'その他',
   ];
 
-  Future initState(Game game, Categorys category) {
+  void initState(Game game, Categorys category) {
     this.game = game;
     this.category = category;
     notifyListeners();

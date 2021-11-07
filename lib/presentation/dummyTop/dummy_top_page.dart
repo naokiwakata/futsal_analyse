@@ -1,4 +1,3 @@
-import 'package:fcm_config/fcm_config.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:test_build/presentation/dummyTop/dummy_top_model.dart';
@@ -209,44 +208,6 @@ class DummyTopPage extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-
-  Widget _analyseTile(BuildContext context, DummyTopModel model, String title) {
-    return Column(
-      children: [
-        InkWell(
-          onTap: () {
-            if (model.authRepository.isLogin) {
-              showCategoryDialog(context);
-            } else {
-              showLoginDialog(context);
-            }
-          },
-          child: Row(
-            children: [
-              Container(
-                height: 60,
-                padding: EdgeInsets.all(8.0),
-                child: Center(
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 8),
-                    child: Text(
-                      title,
-                      style: TextStyle(
-                        fontSize: 18,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        Divider(
-          height: 0,
-        ),
-      ],
     );
   }
 
