@@ -11,7 +11,7 @@ class InputModel extends ChangeNotifier {
   Team teams;
   List<Game> gameList = [];
   Categorys _category;
-  bool loadingData = false;
+  bool isLoading = false;
 
   Future initState(Categorys category) async {
     startLoading();
@@ -62,12 +62,12 @@ class InputModel extends ChangeNotifier {
   }
 
   void startLoading() {
-    loadingData = true;
+    isLoading = true;
     notifyListeners();
   }
 
   void endLoading() {
-    loadingData = false;
+    isLoading = false;
     notifyListeners();
   }
 }

@@ -30,258 +30,64 @@ class AnalysisPage extends StatelessWidget {
     );
   }
 
-  List<Widget> analyseList(AnalysisModel model, BuildContext context) {
-    final analyseList = model.categoryList
-        .map(
-          (element) => Container(
-            child: Column(
-              children: [
-                InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              AnalyseFPRankingPage(
-                                category: category,
-                              ),
-                          fullscreenDialog: true),
-                    );
-                  },
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            height: 60,
-                            padding: EdgeInsets.all(8.0),
-                            child: Center(
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 8),
-                                child: Text(
-                                  'FPランキング',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
+  Widget _analyseTile(
+      BuildContext context, StatelessWidget transitionPage, String title) {
+    return Column(
+      children: [
+        InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (BuildContext context) => transitionPage,
+                  fullscreenDialog: true),
+            );
+          },
+          child: Row(
+            children: [
+              Container(
+                height: 60,
+                padding: EdgeInsets.all(8.0),
+                child: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8),
+                    child: Text(
+                      title,
+                      style: TextStyle(
+                        fontSize: 18,
                       ),
-                    ],
-                  ),
-                ),
-                Divider(
-                  height: 0,
-                ),
-                InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              AnalyseGKRankingPage(
-                                category: category,
-                              ),
-                          fullscreenDialog: true),
-                    );
-                  },
-                  child: Container(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            Container(
-                              height: 60,
-                              padding: EdgeInsets.all(8.0),
-                              child: Center(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left: 8),
-                                  child: Text(
-                                    'GKランキング',
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
                     ),
                   ),
                 ),
-                Divider(
-                  height: 0,
-                ),
-                InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) => AnalyseMatchPage(
-                                category: category,
-                              ),
-                          fullscreenDialog: true),
-                    );
-                  },
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            height: 60,
-                            padding: EdgeInsets.all(8.0),
-                            child: Center(
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 8),
-                                child: Text(
-                                  '得失点分析',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                Divider(
-                  height: 0,
-                  thickness: 2,
-                ),
-                InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              AnalyseGoalShootPage(
-                                category: category,
-                              ),
-                          fullscreenDialog: true),
-                    );
-                  },
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            height: 60,
-                            padding: EdgeInsets.all(8.0),
-                            child: Center(
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 8),
-                                child: Text(
-                                  '各試合分析',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                Divider(
-                  height: 0,
-                  thickness: 2,
-                ),
-                InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              AnalyseParticipationPage(
-                                category: category,
-                              ),
-                          fullscreenDialog: true),
-                    );
-                  },
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            height: 60,
-                            padding: EdgeInsets.all(8.0),
-                            child: Center(
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 8),
-                                child: Text(
-                                  '出場分析',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                Divider(
-                  height: 0,
-                  thickness: 2,
-                ),
-                InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) => AnalyseWholePage(
-                                category: category,
-                              ),
-                          fullscreenDialog: true),
-                    );
-                  },
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            height: 60,
-                            padding: EdgeInsets.all(8.0),
-                            child: Center(
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 8),
-                                child: Text(
-                                  '全体分析',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                Divider(
-                  height: 0,
-                  thickness: 2,
-                ),
-              ],
-            ),
+              ),
+            ],
+          ),
+        ),
+        Divider(
+          height: 0,
+        ),
+      ],
+    );
+  }
+
+  List<Widget> analyseList(AnalysisModel model, BuildContext context) {
+    final analyseList = model.categoryList
+        .map(
+          (element) => Column(
+            children: [
+              _analyseTile(
+                  context, AnalyseFPRankingPage(category: category), 'FPランキング'),
+              _analyseTile(
+                  context, AnalyseGKRankingPage(category: category), 'GKランキング'),
+              _analyseTile(
+                  context, AnalyseMatchPage(category: category), '得失点分析'),
+              _analyseTile(
+                  context, AnalyseGoalShootPage(category: category), '各試合分析'),
+              _analyseTile(context,
+                  AnalyseParticipationPage(category: category), '出場分析'),
+              _analyseTile(
+                  context, AnalyseWholePage(category: category), '全体分析'),
+            ],
           ),
         )
         .toList();

@@ -23,21 +23,7 @@ class InputPage extends StatelessWidget {
       child: Consumer<InputModel>(
         builder: (context, model, child) {
           return Scaffold(
-            body: !model.loadingData
-                ? model.gameList.isNotEmpty
-                    ? Container(
-                        child: ListView(
-                          children: gameList(model, context),
-                        ),
-                      )
-                    : Center(
-                        child: Text('試合の成績を追加しよう'),
-                      )
-                : Center(
-                    child: CircularProgressIndicator(
-                      color: Colors.redAccent,
-                    ),
-                  ),
+            body: _bodySection(context, model),
             floatingActionButton: Column(
               verticalDirection: VerticalDirection.up, // childrenの先頭を下に配置
               children: [
@@ -60,6 +46,26 @@ class InputPage extends StatelessWidget {
             ),
           );
         },
+      ),
+    );
+  }
+
+  Widget _bodySection(BuildContext context, InputModel model) {
+    if (model.isLoading) {
+      return Center(
+        child: CircularProgressIndicator(
+          color: Colors.redAccent,
+        ),
+      );
+    }
+    if (model.gameList.isEmpty) {
+      return Center(
+        child: Text('試合の成績を追加しよう'),
+      );
+    }
+    return Container(
+      child: ListView(
+        children: gameList(model, context),
       ),
     );
   }
@@ -189,9 +195,6 @@ class InputPage extends StatelessWidget {
                         ],
                       ),
                     ),
-                  ),
-                  Divider(
-                    height: 0,
                   ),
                 ],
               ),

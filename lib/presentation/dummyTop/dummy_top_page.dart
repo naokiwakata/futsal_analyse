@@ -1,4 +1,3 @@
-import 'package:fcm_config/fcm_config.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:test_build/presentation/dummyTop/dummy_top_model.dart';
@@ -98,340 +97,21 @@ class DummyTopPage extends StatelessWidget {
         _tabPage(
           currentIndex,
           0,
-          Container(
-            child: Scaffold(
-              body: Center(
-                child: FCMNotificationListener(
-                    child: Text('カテゴリーが未選択です'),
-                    onNotification: (RemoteMessage notification, _) async {
-                      await showDialog(
-                        context: context,
-                        builder: (_) {
-                          return AlertDialog(
-                            title: Text("通知"),
-                            content: Text("通知がきました"),
-                            actions: <Widget>[
-                              // ボタン領域
-                              TextButton(
-                                child: Text("Cancel"),
-                                onPressed: () => Navigator.pop(context),
-                              ),
-                              TextButton(
-                                child: Text("OK"),
-                                onPressed: () => Navigator.pop(context),
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    }),
-              ),
-              floatingActionButton: Column(
-                verticalDirection: VerticalDirection.up, // childrenの先頭を下に配置
-                children: [
-                  FloatingActionButton.extended(
-                    backgroundColor: Colors.redAccent,
-                    label: Text(
-                      '試合追加',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    heroTag: 'hero1',
-                    onPressed: () async {
-                      if (model.authRepository.isLogin) {
-                        showCategoryDialog(context);
-                      } else {
-                        showLoginDialog(context);
-                      }
-                    },
-                    icon: const Icon(Icons.add, color: Colors.white),
-                  ),
-                ],
-              ),
-            ),
-          ),
+          _inputGamePage(context, model),
         ),
         _tabPage(
           currentIndex,
           2,
-          Container(
-            child: Column(
-              children: [
-                InkWell(
-                  onTap: () {
-                    if (model.authRepository.isLogin) {
-                      showCategoryDialog(context);
-                    } else {
-                      showLoginDialog(context);
-                    }
-                  },
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            height: 60,
-                            padding: EdgeInsets.all(8.0),
-                            child: Center(
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 8),
-                                child: Text(
-                                  'FPランキング',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                Divider(
-                  height: 0,
-                ),
-                InkWell(
-                  onTap: () {
-                    if (model.authRepository.isLogin) {
-                      showCategoryDialog(context);
-                    } else {
-                      showLoginDialog(context);
-                    }
-                  },
-                  child: Container(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            Container(
-                              height: 60,
-                              padding: EdgeInsets.all(8.0),
-                              child: Center(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left: 8),
-                                  child: Text(
-                                    'GKランキング',
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Divider(
-                  height: 0,
-                ),
-                InkWell(
-                  onTap: () {
-                    if (model.authRepository.isLogin) {
-                      showCategoryDialog(context);
-                    } else {
-                      showLoginDialog(context);
-                    }
-                  },
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            height: 60,
-                            padding: EdgeInsets.all(8.0),
-                            child: Center(
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 8),
-                                child: Text(
-                                  '得失点分析',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                Divider(
-                  height: 0,
-                  thickness: 2,
-                ),
-                InkWell(
-                  onTap: () {
-                    if (model.authRepository.isLogin) {
-                      showCategoryDialog(context);
-                    } else {
-                      showLoginDialog(context);
-                    }
-                  },
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            height: 60,
-                            padding: EdgeInsets.all(8.0),
-                            child: Center(
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 8),
-                                child: Text(
-                                  '各試合分析',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                Divider(
-                  height: 0,
-                  thickness: 2,
-                ),
-                InkWell(
-                  onTap: () {
-                    if (model.authRepository.isLogin) {
-                      showCategoryDialog(context);
-                    } else {
-                      showLoginDialog(context);
-                    }
-                  },
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            height: 60,
-                            padding: EdgeInsets.all(8.0),
-                            child: Center(
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 8),
-                                child: Text(
-                                  '出場分析',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                Divider(
-                  height: 0,
-                  thickness: 2,
-                ),
-                InkWell(
-                  onTap: () {
-                    if (model.authRepository.isLogin) {
-                      showCategoryDialog(context);
-                    } else {
-                      showLoginDialog(context);
-                    }
-                  },
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            height: 60,
-                            padding: EdgeInsets.all(8.0),
-                            child: Center(
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 8),
-                                child: Text(
-                                  '全体分析',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                Divider(
-                  height: 0,
-                  thickness: 2,
-                ),
-              ],
-            ),
-          ),
+          _analysePage(context, model),
         ),
         _tabPage(
           currentIndex,
           1,
-          Container(
-            child: Scaffold(
-              body: Center(
-                child: Text('カテゴリーが未選択です'),
-              ),
-              floatingActionButton: Column(
-                verticalDirection: VerticalDirection.up, // childrenの先頭を下に配置
-                children: [
-                  FloatingActionButton.extended(
-                    backgroundColor: Colors.redAccent,
-                    label: Text(
-                      '選手追加',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    heroTag: 'hero3',
-                    onPressed: () async {
-                      if (model.authRepository.isLogin) {
-                        showCategoryDialog(context);
-                      } else {
-                        showLoginDialog(context);
-                      }
-                    },
-                    icon: const Icon(Icons.add, color: Colors.white),
-                  ),
-                ],
-              ),
-            ),
-          ),
+          _playerPage(context, model),
         ),
         _tabPage(
           currentIndex,
           3,
-          /*  Container(
-            child: Center(
-              child: InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => StrategyBoardPage(),
-                    ),
-                  );
-                },
-                child: Text('作戦ボードに飛ぶ'),
-              ),
-            ),
-          ),*/
           StrategyBoardPage(),
         ),
       ],
@@ -466,6 +146,122 @@ class DummyTopPage extends StatelessWidget {
           ],
         );
       },
+    );
+  }
+
+  Widget _inputGamePage(BuildContext context, DummyTopModel model) {
+    return Container(
+      child: Scaffold(
+        body: Center(
+          child: Text('カテゴリーが未選択です'),
+        ),
+        floatingActionButton: Column(
+          verticalDirection: VerticalDirection.up, // childrenの先頭を下に配置
+          children: [
+            FloatingActionButton.extended(
+              backgroundColor: Colors.redAccent,
+              label: Text(
+                '試合追加',
+                style: TextStyle(color: Colors.white),
+              ),
+              heroTag: 'hero1',
+              onPressed: () async {
+                if (model.authRepository.isLogin) {
+                  showCategoryDialog(context);
+                } else {
+                  showLoginDialog(context);
+                }
+              },
+              icon: const Icon(Icons.add, color: Colors.white),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _playerPage(BuildContext context, DummyTopModel model) {
+    return Container(
+      child: Scaffold(
+        body: Center(
+          child: Text('カテゴリーが未選択です'),
+        ),
+        floatingActionButton: Column(
+          verticalDirection: VerticalDirection.up, // childrenの先頭を下に配置
+          children: [
+            FloatingActionButton.extended(
+              backgroundColor: Colors.redAccent,
+              label: Text(
+                '選手追加',
+                style: TextStyle(color: Colors.white),
+              ),
+              heroTag: 'hero3',
+              onPressed: () async {
+                if (model.authRepository.isLogin) {
+                  showCategoryDialog(context);
+                } else {
+                  showLoginDialog(context);
+                }
+              },
+              icon: const Icon(Icons.add, color: Colors.white),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _analysePage(BuildContext context, DummyTopModel model) {
+    Widget _analyseTile(
+        BuildContext context, DummyTopModel model, String title) {
+      return Column(
+        children: [
+          InkWell(
+            onTap: () {
+              if (model.authRepository.isLogin) {
+                showCategoryDialog(context);
+              } else {
+                showLoginDialog(context);
+              }
+            },
+            child: Row(
+              children: [
+                Container(
+                  height: 60,
+                  padding: EdgeInsets.all(8.0),
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 8),
+                      child: Text(
+                        title,
+                        style: TextStyle(
+                          fontSize: 18,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Divider(
+            height: 0,
+          ),
+        ],
+      );
+    }
+
+    return Container(
+      child: Column(
+        children: [
+          _analyseTile(context, model, 'FPランキング'),
+          _analyseTile(context, model, 'GKランキング'),
+          _analyseTile(context, model, '得失点分析'),
+          _analyseTile(context, model, '各試合分析'),
+          _analyseTile(context, model, '出場分析'),
+          _analyseTile(context, model, '全体分析'),
+        ],
+      ),
     );
   }
 

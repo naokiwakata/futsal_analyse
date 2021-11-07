@@ -564,4 +564,3 @@ class AnalyseFPRankingPage extends StatelessWidget {
     );
   }
 }
-//Gkのfunctionsとランキング。

@@ -39,11 +39,39 @@ class AnalyseMatchPage extends StatelessWidget {
                   Expanded(
                     child: TabBarView(
                       children: [
-                        _tokutenPatternTab(model),
-                        _shittenPatternTab(model),
-                        _tokutenTimeTab(
+                        _pieChartTab(
+                          model,
+                          model.tokutenPatternList,
+                          '${model.allTokuten.toString()} GOAL',
+                          model.tsetPlay,
+                          model.tsetPlayPer,
+                          model.tcounter,
+                          model.tcounterPer,
+                          model.tindividualSkill,
+                          model.tindividualSkillPer,
+                          model.tbreakUp,
+                          model.tbreakUpPer,
+                          model.tother,
+                          model.totherPer,
+                        ),
+                        _pieChartTab(
+                          model,
+                          model.shittenPetternList,
+                          '${model.allShitten.toString()} GOAL',
+                          model.tsetPlay,
+                          model.tsetPlayPer,
+                          model.tcounter,
+                          model.tcounterPer,
+                          model.tindividualSkill,
+                          model.tindividualSkillPer,
+                          model.tbreakUp,
+                          model.tbreakUpPer,
+                          model.tother,
+                          model.totherPer,
+                        ),
+                        _barChartTab(
                             model, model.tokutenTimeList, model.allTokuten),
-                        _tokutenTimeTab(
+                        _barChartTab(
                             model, model.shittenTimeList, model.allShitten),
                       ],
                     ),
@@ -57,288 +85,198 @@ class AnalyseMatchPage extends StatelessWidget {
     );
   }
 
-  Widget _tokutenPatternTab(AnalyseMatchModel model) {
-    return Scaffold(
-      body: !model.loadingData
-          ? Column(
+  Widget _pieChartTab(
+      AnalyseMatchModel model,
+      List<ScoreData> scoreList,
+      String centerChar,
+      int setPlay,
+      int setPlayPer,
+      int counter,
+      int counterPer,
+      int skill,
+      int skillPer,
+      int breakUp,
+      int breakUpPer,
+      int other,
+      int otherPer) {
+    if (model.loadingData) {
+      return Center(
+        child: CircularProgressIndicator(
+          color: Colors.redAccent,
+        ),
+      );
+    } else {
+      return Column(
+        children: [
+          SizedBox(
+            height: 10,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Column(
+                children: [
+                  Text('セットプレー'),
+                  Text(
+                    '$setPlay g',
+                  ),
+                  Text('$setPlayPer%'),
+                ],
+              ),
+              Column(
+                children: [
+                  Text('カウンター'),
+                  Text(
+                    '$counter g',
+                  ),
+                  Text('$counterPer%'),
+                ],
+              ),
+              Column(
+                children: [
+                  Text('個人技'),
+                  Text(
+                    '$skill g',
+                  ),
+                  Text('$skillPer%'),
+                ],
+              ),
+              Column(
+                children: [
+                  Text('崩し'),
+                  Text(
+                    '$breakUp g',
+                  ),
+                  Text('$breakUpPer%'),
+                ],
+              ),
+              Column(
+                children: [
+                  Text('その他'),
+                  Text(
+                    '$other g',
+                  ),
+                  Text('$otherPer%'),
+                ],
+              ),
+            ],
+          ),
+          _pieChart(model, scoreList, centerChar),
+        ],
+      );
+    }
+  }
+
+  Widget _pieChart(
+      AnalyseMatchModel model, List<ScoreData> scoreList, String centerChar) {
+    if (scoreList.isEmpty) {
+      return Center(
+        child: Text('データなし'),
+      );
+    }
+    return Expanded(
+      child: Stack(
+        children: [
+          charts.PieChart(
+            _createScoreData(scoreList),
+            defaultRenderer: new charts.ArcRendererConfig(
+              arcWidth: 100,
+              arcRendererDecorators: [
+                new charts.ArcLabelDecorator(
+                    labelPosition: charts.ArcLabelPosition.inside)
+              ],
+            ),
+          ),
+          Center(
+            child: Text(
+              centerChar,
+              style: TextStyle(
+                fontSize: 30,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _barChartTab(
+      AnalyseMatchModel model, List<ScoreData> scoreList, int goal) {
+    if (model.loadingData) {
+      return Center(
+        child: CircularProgressIndicator(
+          color: Colors.redAccent,
+        ),
+      );
+    } else {
+      return Column(
+        children: [
+          Container(
+            height: 50,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(
                   height: 10,
                 ),
-                Container(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Container(
-                        child: Column(
-                          children: [
-                            Text('セットプレー'),
-                            Text(
-                              '${model.tsetPlay.toString()} g',
-                            ),
-                            Text('${model.tsetPlayPer}%'),
-                          ],
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      child: Text(
+                        "全 $goalゴール",
+                        style: TextStyle(
+                          fontSize: 20,
                         ),
                       ),
-                      Column(
-                        children: [
-                          Text('カウンター'),
-                          Text(
-                            '${model.tcounter.toString()} g',
-                          ),
-                          Text('${model.tcounterPer}%'),
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          Text('個人技'),
-                          Text(
-                            '${model.tindividualSkill.toString()} g',
-                          ),
-                          Text('${model.tindividualSkillPer}%'),
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          Text('崩し'),
-                          Text(
-                            '${model.tbreakUp.toString()} g',
-                          ),
-                          Text('${model.tbreakUpPer}%'),
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          Text('その他'),
-                          Text(
-                            '${model.tother.toString()} g',
-                          ),
-                          Text('${model.totherPer}%'),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    child: model.tokutenPatternList.isNotEmpty
-                        ? Stack(
-                            children: [
-                              charts.PieChart(
-                                _createScoreData(model.tokutenPatternList),
-                                defaultRenderer: new charts.ArcRendererConfig(
-                                  arcWidth: 100,
-                                  arcRendererDecorators: [
-                                    new charts.ArcLabelDecorator(
-                                        labelPosition:
-                                            charts.ArcLabelPosition.inside)
-                                  ],
-                                ),
-                              ),
-                              Center(
-                                child: Text(
-                                  '${model.allTokuten.toString()} GOAL',
-                                  style: TextStyle(
-                                    fontSize: 30,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          )
-                        : Center(
-                            child: Text('データなし'),
-                          ),
-                  ),
+                    ),
+                  ],
                 ),
               ],
-            )
-          : Center(
-              child: CircularProgressIndicator(
-                color: Colors.redAccent,
-              ),
             ),
-    );
+          ),
+          _barChart(scoreList),
+          SizedBox(
+            height: 30,
+          ),
+        ],
+      );
+    }
   }
 
-  Widget _shittenPatternTab(AnalyseMatchModel model) {
-    return Scaffold(
-      body: !model.loadingData
-          ? Column(
-              children: [
-                Container(
-                  height: 80,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Container(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Container(
-                              child: Column(
-                                children: [
-                                  Text('セットプレー'),
-                                  Text(
-                                    '${model.setPlay.toString()} g',
-                                  ),
-                                  Text('${model.setPlayPer}%'),
-                                ],
-                              ),
-                            ),
-                            Column(
-                              children: [
-                                Text('カウンター'),
-                                Text(
-                                  '${model.counter.toString()} g',
-                                ),
-                                Text('${model.counterPer}%'),
-                              ],
-                            ),
-                            Column(
-                              children: [
-                                Text('個人技'),
-                                Text(
-                                  '${model.individualSkill.toString()} g',
-                                ),
-                                Text('${model.individualSkillPer}%'),
-                              ],
-                            ),
-                            Column(
-                              children: [
-                                Text('崩し'),
-                                Text(
-                                  '${model.breakUp.toString()} g',
-                                ),
-                                Text('${model.breakUpPer}%'),
-                              ],
-                            ),
-                            Column(
-                              children: [
-                                Text('その他'),
-                                Text(
-                                  '${model.other.toString()} g',
-                                ),
-                                Text('${model.otherPer}%'),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
+  Widget _barChart(List<ScoreData> scoreList) {
+    if (scoreList.isEmpty) {
+      return Center(
+        child: Text('データなし'),
+      );
+    }
+    return Expanded(
+      child: Container(
+        padding: EdgeInsets.only(left: 8, right: 8),
+        child: Stack(
+          children: [
+            charts.BarChart(
+              _createScoreData(scoreList),
+              domainAxis: new charts.OrdinalAxisSpec(
+                renderSpec: new charts.SmallTickRendererSpec(
+                  labelStyle: new charts.TextStyleSpec(
+                      color: charts.MaterialPalette.white),
+                  lineStyle: new charts.LineStyleSpec(
+                      color: charts.MaterialPalette.white),
                 ),
-                Expanded(
-                  child: Container(
-                    child: model.shittenPetternList.isNotEmpty
-                        ? Stack(
-                            children: [
-                              charts.PieChart(
-                                _createScoreData(model.shittenPetternList),
-                                defaultRenderer: new charts.ArcRendererConfig(
-                                  arcWidth: 100,
-                                  arcRendererDecorators: [
-                                    new charts.ArcLabelDecorator(
-                                        labelPosition:
-                                            charts.ArcLabelPosition.inside)
-                                  ],
-                                ),
-                              ),
-                              Center(
-                                child: Text(
-                                  '${model.allShitten.toString()} GOAL',
-                                  style: TextStyle(
-                                    fontSize: 30,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          )
-                        : Center(
-                            child: Text('データなし'),
-                          ),
-                  ),
+              ),
+              primaryMeasureAxis: new charts.NumericAxisSpec(
+                renderSpec: new charts.GridlineRendererSpec(
+                  labelStyle: new charts.TextStyleSpec(
+                      color: charts.MaterialPalette.white),
+                  lineStyle: new charts.LineStyleSpec(
+                      color: charts.MaterialPalette.white),
                 ),
-              ],
-            )
-          : Center(
-              child: CircularProgressIndicator(
-                color: Colors.redAccent,
               ),
             ),
-    );
-  }
-
-  Widget _tokutenTimeTab(
-      AnalyseMatchModel model, List<ScoreData> list, int goal) {
-    return Scaffold(
-      body: !model.loadingData
-          ? Column(
-              children: [
-                Container(
-                  height: 50,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            child: Text(
-                              "全 $goalゴール",
-                              style: TextStyle(
-                                fontSize: 20,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    padding: EdgeInsets.only(left: 8, right: 8),
-                    child: list.isNotEmpty
-                        ? charts.BarChart(
-                            _createScoreData(list),
-                            domainAxis: new charts.OrdinalAxisSpec(
-                              renderSpec: new charts.SmallTickRendererSpec(
-                                labelStyle: new charts.TextStyleSpec(
-                                    color: charts.MaterialPalette.white),
-                                lineStyle: new charts.LineStyleSpec(
-                                    color: charts.MaterialPalette.white),
-                              ),
-                            ),
-                            primaryMeasureAxis: new charts.NumericAxisSpec(
-                              renderSpec: new charts.GridlineRendererSpec(
-                                labelStyle: new charts.TextStyleSpec(
-                                    color: charts.MaterialPalette.white),
-                                lineStyle: new charts.LineStyleSpec(
-                                    color: charts.MaterialPalette.white),
-                              ),
-                            ),
-                          )
-                        : Center(
-                            child: Text('データなし'),
-                          ),
-                  ),
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-              ],
-            )
-          : Center(
-              child: CircularProgressIndicator(
-                color: Colors.redAccent,
-              ),
-            ),
+          ],
+        ),
+      ),
     );
   }
 
