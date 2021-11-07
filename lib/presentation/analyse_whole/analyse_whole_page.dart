@@ -54,7 +54,7 @@ class AnalyseWholePage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
-                    child: Text('全試合'),
+                    child: Text('試合数'),
                   ),
                   Container(
                     child: Text(
