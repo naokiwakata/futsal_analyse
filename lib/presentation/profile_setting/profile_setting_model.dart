@@ -9,18 +9,17 @@ class ProfileSettingModel extends ChangeNotifier {
   final authRepository = AuthRepository.instance;
   Team team;
   String teamName = '';
-  String editName = '';
   bool loadingDate = false;
 
   Future initState() async {
-    if(authRepository.isLogin){
+    if (authRepository.isLogin) {
       startLoading();
       team = await _teamsRepository.fetch();
       print('${team.uid} init');
       teamName = team.teamName;
       endLoading();
-    }else{
-      teamName ='なし';
+    } else {
+      teamName = 'なし';
     }
     notifyListeners();
   }
@@ -46,9 +45,8 @@ class ProfileSettingModel extends ChangeNotifier {
   }
 
   Future editTeamName() async {
-    await _teamsRepository.updateTeamName(teamName: editName, team: team);
+    await _teamsRepository.updateTeamName(teamName: teamName, team: team);
     print('更新');
-    teamName = editName;
     notifyListeners();
   }
 
