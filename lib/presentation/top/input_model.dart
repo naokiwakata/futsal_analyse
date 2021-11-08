@@ -35,7 +35,7 @@ class InputModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future updatgeGame(Game game) async {
+  Future updateGame(Game game,DateTime gameDate) async {
     await _teamsRepository.updateGame(
         gameDate: gameDate,
         opponentName: opponentName,
@@ -51,7 +51,7 @@ class InputModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void getDate(DateTime dateTime) {
+  void setDate(DateTime dateTime) {
     gameDate = dateTime;
     notifyListeners();
   }

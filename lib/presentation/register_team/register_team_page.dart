@@ -293,6 +293,7 @@ class RegisterCategoryPage extends StatelessWidget {
         return Container();
       },
       transitionBuilder: (context, animation1, animation2, widget) {
+        model.categoryName = category.categoryName;
         return Center(
           child: Material(
             type: MaterialType.transparency,
@@ -317,13 +318,11 @@ class RegisterCategoryPage extends StatelessWidget {
                   ),
                   SizedBox(
                     width: 250,
-                    child: TextField(
+                    child: TextFormField(
                       onChanged: (value) {
                         model.categoryName = value;
                       },
-                      decoration: InputDecoration(
-                        hintText: category.categoryName,
-                      ),
+                      initialValue: category.categoryName,
                     ),
                   ),
                   SizedBox(

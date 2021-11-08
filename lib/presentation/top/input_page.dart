@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -255,7 +257,7 @@ class InputPage extends StatelessWidget {
                                 DateTime.now().add(Duration(days: -1095)),
                             lastDate: DateTime.now().add(Duration(days: 1095)),
                           );
-                          model.getDate(pickedDate);
+                          model.setDate(pickedDate);
                         },
                         label: model.gameDate != null
                             ? Text(
@@ -332,6 +334,9 @@ class InputPage extends StatelessWidget {
   }
 
   showEditGameDialog(BuildContext context, InputModel model, Game game) {
+    DateTime pickedDate = game.gameDate.toDate();
+    model.opponentName = game.opponentName;
+
     showGeneralDialog(
       barrierColor: Colors.black.withOpacity(0.3),
       transitionDuration: Duration(milliseconds: 100),
@@ -374,18 +379,18 @@ class InputPage extends StatelessWidget {
                           Icons.arrow_drop_down,
                         ),
                         onPressed: () async {
-                          final pickedDate = await showDatePicker(
+                          pickedDate = await showDatePicker(
                             context: context,
                             initialDate: new DateTime.now(),
                             firstDate:
                                 DateTime.now().add(Duration(days: -1095)),
                             lastDate: DateTime.now().add(Duration(days: 1095)),
                           );
-                          model.getDate(pickedDate);
+                          model.setDate(pickedDate);
                         },
-                        label: model.gameDate != null
+                        label: pickedDate != null
                             ? Text(
-                                '${(DateFormat('yyyy/MM/dd')).format(model.gameDate)}',
+                                '${(DateFormat('yyyy/MM/dd')).format(pickedDate)}',
                                 style: TextStyle(
                                   fontSize: 20,
                                 ),
@@ -401,13 +406,11 @@ class InputPage extends StatelessWidget {
                   ),
                   SizedBox(
                     width: 250,
-                    child: TextField(
+                    child: TextFormField(
                       onChanged: (value) {
                         model.opponentName = value;
                       },
-                      decoration: InputDecoration(
-                        hintText: game.opponentName,
-                      ),
+                      initialValue: game.opponentName,
                     ),
                   ),
                   SizedBox(
@@ -435,10 +438,10 @@ class InputPage extends StatelessWidget {
                           style: TextStyle(color: Colors.white),
                         ),
                         onPressed: () async {
-                          if (model.gameDate != null &&
+                          if (pickedDate != null &&
                               model.opponentName != '') {
                             Navigator.pop(context);
-                            await model.updatgeGame(game);
+                            await model.updateGame(game, pickedDate);
                             await model.initState(category);
                             model.clearTextField();
                           } else {
