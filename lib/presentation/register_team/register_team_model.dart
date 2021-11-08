@@ -8,7 +8,7 @@ class RegisterCategoryModel extends ChangeNotifier {
   List<Categorys> categoryList = [];
   Team team;
   String categoryName = '';
-  bool loadingDate = false;
+  bool isLoading = false;
 
   Future initState() async {
     startLoading();
@@ -48,12 +48,12 @@ class RegisterCategoryModel extends ChangeNotifier {
   }
 
   void startLoading() {
-    loadingDate = true;
+    isLoading = true;
     notifyListeners();
   }
 
   void endLoading() {
-    loadingDate = false;
+    isLoading = false;
     notifyListeners();
   }
 }
