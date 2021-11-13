@@ -77,7 +77,6 @@ class AnalysisRepository {
         .collection('category')
         .doc(category.uid)
         .collection("player")
-        .where('position', isEqualTo: 'FP')
         .orderBy('shoot', descending: true)
         .get();
     final playerList = snapshot.docs.map((doc) => Player(doc)).toList();
@@ -91,7 +90,6 @@ class AnalysisRepository {
         .collection('category')
         .doc(category.uid)
         .collection("player")
-        .where('position', isEqualTo: 'FP')
         .orderBy('shoot', descending: true)
         .limit(1)
         .get();
@@ -108,7 +106,6 @@ class AnalysisRepository {
         .collection('category')
         .doc(category.uid)
         .collection("player")
-        .where('position', isEqualTo: 'FP')
         .orderBy('goal', descending: true)
         .get();
     final playerList = snapshot.docs.map((doc) => Player(doc)).toList();
@@ -122,7 +119,6 @@ class AnalysisRepository {
         .collection('category')
         .doc(category.uid)
         .collection("player")
-        .where('position', isEqualTo: 'FP')
         .orderBy('goal', descending: true)
         .limit(1)
         .get();

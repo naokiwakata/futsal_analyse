@@ -26,8 +26,8 @@ class PlayerStatsPage extends StatelessWidget {
                 children: [
                   Column(
                     children: [
-                      GKSection(context, model),
-                      FPSection(model),
+                      gkSection(context, model),
+                      fpSection(model),
                       model.gameFPList.isNotEmpty
                           ? Expanded(
                               child: Container(
@@ -144,7 +144,7 @@ class PlayerStatsPage extends StatelessWidget {
     );
   }
 
-  Widget GKSection(BuildContext context, PlayerStatsModel model) {
+  Widget gkSection(BuildContext context, PlayerStatsModel model) {
     return Column(
       children: [
         Container(
@@ -255,7 +255,7 @@ class PlayerStatsPage extends StatelessWidget {
     );
   }
 
-  Widget FPSection(PlayerStatsModel model) {
+  Widget fpSection(PlayerStatsModel model) {
     return Column(
       children: [
         Container(
