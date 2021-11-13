@@ -104,6 +104,8 @@ class PlayerStatsModel extends ChangeNotifier {
   int scored = 0;
   int tokutenParticipation = 0;
   int shittenParticipation = 0;
+  int shootGK = 0;
+  int goalGK = 0;
 
   Future initGK(Categorys category, Game game) async {
     this.category = category;
@@ -154,6 +156,8 @@ class PlayerStatsModel extends ChangeNotifier {
         player: player,
         scored: scored,
         shot: shot,
+        goal: goalGK,
+        shoot: shootGK,
         participation: participation,
       );
       print('add GK');
@@ -202,6 +206,26 @@ class PlayerStatsModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  void incrementShootGK() {
+    shootGK++;
+    notifyListeners();
+  }
+
+  void decrementShootGK() {
+    shootGK--;
+    notifyListeners();
+  }
+
+  void incrementGoalGK() {
+    goalGK++;
+    notifyListeners();
+  }
+
+  void decrementGoalGK() {
+    goalGK--;
+    notifyListeners();
+  }
+
   void incrementScored() {
     scored++;
     notifyListeners();
@@ -241,6 +265,8 @@ class PlayerStatsModel extends ChangeNotifier {
     scored = 0;
     tokutenParticipation = 0;
     shittenParticipation = 0;
+    shootGK = 0;
+    goalGK = 0;
 
     notifyListeners();
   }
