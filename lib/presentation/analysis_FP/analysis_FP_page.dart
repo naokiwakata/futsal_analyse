@@ -102,7 +102,7 @@ class AnalyseFPRankingPage extends StatelessWidget {
                   children: [
                     Container(
                       padding: EdgeInsets.all(16),
-                      width: 64,
+                      width: 65,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -267,7 +267,7 @@ class AnalyseFPRankingPage extends StatelessWidget {
                   children: [
                     Container(
                       padding: EdgeInsets.all(16),
-                      width: 64,
+                      width: 65,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -432,7 +432,7 @@ class AnalyseFPRankingPage extends StatelessWidget {
                   children: [
                     Container(
                       padding: EdgeInsets.all(16),
-                      width: 64,
+                      width: 65,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
