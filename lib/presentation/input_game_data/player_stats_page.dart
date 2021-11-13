@@ -205,7 +205,7 @@ class PlayerStatsPage extends StatelessWidget {
                           SizedBox(width: 20),
                           Container(
                             child: Text(
-                              '被シュート',
+                              'ゴール',
                               style: TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.bold,
@@ -214,7 +214,7 @@ class PlayerStatsPage extends StatelessWidget {
                           ),
                           Container(
                             child: Text(
-                              '失点',
+                              'シュート',
                               style: TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.bold,
@@ -542,22 +542,36 @@ class PlayerStatsPage extends StatelessWidget {
                         width: 10,
                       ),
                       Container(
-                          child: Text(
-                        player.goal.toString(),
-                        style: TextStyle(
-                          fontSize: 13,
-                        ),
-                      )),
+                          child: player.goal != null
+                              ? Text(
+                                  player.goal.toString(),
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                  ),
+                                )
+                              : Text(
+                                  '0',
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                  ),
+                                )),
                       SizedBox(
                         width: 10,
                       ),
                       Container(
-                          child: Text(
-                        player.shoot.toString(),
-                        style: TextStyle(
-                          fontSize: 13,
-                        ),
-                      )),
+                          child: player.shoot != null
+                              ? Text(
+                                  player.shoot.toString(),
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                  ),
+                                )
+                              : Text(
+                                  '0',
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                  ),
+                                )),
                     ],
                   ),
                 ),
