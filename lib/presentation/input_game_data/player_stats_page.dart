@@ -26,136 +26,8 @@ class PlayerStatsPage extends StatelessWidget {
                 children: [
                   Column(
                     children: [
-                      Container(
-                        height: 50,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Container(
-                              child: Text(
-                                'GK',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                            Container(
-                              child: Text(
-                                '被シュート',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                            Container(
-                              child: Text(
-                                '失点',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                            Container(
-                              child: Text(
-                                '出場回数 ',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Divider(
-                        thickness: 1,
-                        height: 0,
-                      ),
-                      model.gameGKList.isNotEmpty
-                          ? Container(
-                              height: 100,
-                              child: ListView(
-                                children: playerList(model.gameGKList, context),
-                              ),
-                            )
-                          : Container(
-                              height: 100,
-                              width: double.infinity,
-                              child: Center(
-                                child: Text('データなし'),
-                              ),
-                            ),
-                      Divider(
-                        thickness: 1,
-                        height: 0,
-                      ),
-                      Container(
-                        height: 50,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Container(
-                              child: Text(
-                                'FP',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                            Container(
-                              child: !model.hasShownParticipation
-                                  ? Text(
-                                      'シュート',
-                                      style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    )
-                                  : Text(
-                                      '得点時',
-                                      style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                            ),
-                            Container(
-                              child: !model.hasShownParticipation
-                                  ? Text(
-                                      'ゴール',
-                                      style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    )
-                                  : Text(
-                                      '失点時',
-                                      style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                            ),
-                            Container(
-                              child: Text(
-                                '出場回数 ',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Divider(
-                        thickness: 1,
-                        height: 0,
-                      ),
+                      GKSection(context, model),
+                      FPSection(model),
                       model.gameFPList.isNotEmpty
                           ? Expanded(
                               child: Container(
@@ -179,43 +51,7 @@ class PlayerStatsPage extends StatelessWidget {
                                 ),
                               ),
                             ),
-                      Stack(
-                        children: [
-                          Container(
-                            height: 80,
-                          ),
-                          Row(
-                            children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 8, top: 16),
-                                child: IconButton(
-                                  icon: Icon(Icons.change_circle),
-                                  onPressed: () {
-                                    model.changeFPlist();
-                                  },
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 16),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    Text('シュート ${model.allShoot}'),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Text('被シュート ${model.allShot}')
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
+                      bottomSection(model),
                     ],
                   ),
                   showGK(context, model),
@@ -265,90 +101,313 @@ class PlayerStatsPage extends StatelessWidget {
     );
   }
 
+  Widget bottomSection(PlayerStatsModel model) {
+    return Column(
+      children: [
+        Stack(
+          children: [
+            Container(
+              height: 80,
+            ),
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 8, top: 16),
+                  child: IconButton(
+                    icon: Icon(Icons.change_circle),
+                    onPressed: () {
+                      model.changeFPlist();
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 16),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Text('シュート ${model.allShoot}'),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Text('被シュート ${model.allShot}')
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget GKSection(BuildContext context, PlayerStatsModel model) {
+    return Column(
+      children: [
+        Container(
+          height: 50,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              SizedBox(width: 30),
+              Container(
+                child: Text(
+                  'GK',
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              !model.hasShownParticipation
+                  ? Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          SizedBox(width: 20),
+                          Container(
+                            child: Text(
+                              '被シュート',
+                              style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            child: Text(
+                              '失点',
+                              style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            child: Text(
+                              '出場回数 ',
+                              style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  : Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          SizedBox(width: 20),
+                          Container(
+                            child: Text(
+                              '被シュート',
+                              style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            child: Text(
+                              '失点',
+                              style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+            ],
+          ),
+        ),
+        Divider(
+          thickness: 1,
+          height: 0,
+        ),
+        model.gameGKList.isNotEmpty
+            ? Container(
+                height: 100,
+                child: ListView(
+                  children: !model.hasShownParticipation
+                      ? playerList(model.gameGKList, context)
+                      : participationGKList(model.gameGKList, context),
+                ),
+              )
+            : Container(
+                height: 100,
+                width: double.infinity,
+                child: Center(
+                  child: Text('データなし'),
+                ),
+              ),
+        Divider(
+          thickness: 1,
+          height: 0,
+        ),
+      ],
+    );
+  }
+
+  Widget FPSection(PlayerStatsModel model) {
+    return Column(
+      children: [
+        Container(
+          height: 50,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Container(
+                child: Text(
+                  'FP',
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              Container(
+                child: !model.hasShownParticipation
+                    ? Text(
+                        'シュート',
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )
+                    : Text(
+                        '得点時',
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+              ),
+              Container(
+                child: !model.hasShownParticipation
+                    ? Text(
+                        'ゴール',
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )
+                    : Text(
+                        '失点時',
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+              ),
+              Container(
+                child: Text(
+                  '出場回数 ',
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        Divider(
+          thickness: 1,
+          height: 0,
+        ),
+      ],
+    );
+  }
+
   List<Widget> playerList(List<Player> list, BuildContext context) {
     final playerList = list
         .map(
           (player) => Column(
             children: [
               Container(
-                child: Container(
-                  height: 50,
-                  padding: EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            width: 50,
-                            child: Text(
-                              player.uniformNumber.toString(),
-                              style: TextStyle(
-                                fontSize: 10,
-                              ),
+                height: 50,
+                padding: EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          width: 50,
+                          child: Text(
+                            player.uniformNumber.toString(),
+                            style: TextStyle(
+                              fontSize: 10,
                             ),
                           ),
-                          Container(
-                            child: Text(
-                              player.playerName,
+                        ),
+                        Container(
+                          child: Text(
+                            player.playerName,
+                            style: TextStyle(
+                              fontSize: 13,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Container(
+                      child: player.position == 'FP'
+                          ? Text(
+                              player.shoot.toString(),
+                              style: TextStyle(
+                                fontSize: 13,
+                              ),
+                            )
+                          : Text(
+                              player.shot.toString(),
                               style: TextStyle(
                                 fontSize: 13,
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Container(
-                        child: player.position == 'FP'
-                            ? Text(
-                                player.shoot.toString(),
-                                style: TextStyle(
-                                  fontSize: 13,
-                                ),
-                              )
-                            : Text(
-                                player.shot.toString(),
-                                style: TextStyle(
-                                  fontSize: 13,
-                                ),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Container(
+                      child: player.position == 'FP'
+                          ? Text(
+                              player.goal.toString(),
+                              style: TextStyle(
+                                fontSize: 13,
                               ),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Container(
-                        child: player.position == 'FP'
-                            ? Text(
-                                player.goal.toString(),
-                                style: TextStyle(
-                                  fontSize: 13,
-                                ),
-                              )
-                            : Text(
-                                player.scored.toString(),
-                                style: TextStyle(
-                                  fontSize: 13,
-                                ),
+                            )
+                          : Text(
+                              player.scored.toString(),
+                              style: TextStyle(
+                                fontSize: 13,
                               ),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Container(
-                        child: Text(
-                          player.participation.toString(),
-                          style: TextStyle(
-                            fontSize: 13,
-                          ),
+                            ),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Container(
+                      child: Text(
+                        player.participation.toString(),
+                        style: TextStyle(
+                          fontSize: 13,
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
               Divider(
@@ -429,6 +488,76 @@ class PlayerStatsPage extends StatelessWidget {
                           ),
                         ),
                       ),
+                    ],
+                  ),
+                ),
+              ),
+              Divider(
+                thickness: 1.0,
+                height: 0,
+              ),
+            ],
+          ),
+        )
+        .toList();
+    return playerList;
+  }
+
+  List<Widget> participationGKList(List<Player> list, BuildContext context) {
+    final playerList = list
+        .map(
+          (player) => Column(
+            children: [
+              Container(
+                child: Container(
+                  height: 50,
+                  padding: EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            width: 50,
+                            child: Text(
+                              player.uniformNumber.toString(),
+                              style: TextStyle(
+                                fontSize: 10,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            child: Text(
+                              player.playerName,
+                              style: TextStyle(
+                                fontSize: 13,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Container(
+                          child: Text(
+                        player.goal.toString(),
+                        style: TextStyle(
+                          fontSize: 13,
+                        ),
+                      )),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Container(
+                          child: Text(
+                        player.shoot.toString(),
+                        style: TextStyle(
+                          fontSize: 13,
+                        ),
+                      )),
                     ],
                   ),
                 ),
@@ -775,6 +904,54 @@ class PlayerStatsPage extends StatelessWidget {
   }
 
   Widget showGK(BuildContext context, PlayerStatsModel model) {
+    Widget button(String title, void plus(), void minus(), int count) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            title,
+            style: TextStyle(fontSize: 15, color: Colors.black),
+          ),
+          Center(
+            child: SizedBox(
+              width: 200,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      minus();
+                    },
+                    child: Text('-'),
+                  ),
+                  Container(
+                    width: 50,
+                    height: 30,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Center(
+                      child: Text(
+                        count.toString(),
+                        style: TextStyle(color: Colors.black),
+                      ),
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      plus();
+                    },
+                    child: Text('+'),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      );
+    }
+
     return Center(
       child: AnimatedContainer(
         curve: Curves.fastOutSlowIn,
@@ -785,7 +962,7 @@ class PlayerStatsPage extends StatelessWidget {
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5), color: Colors.white),
             padding: EdgeInsets.only(right: 10, left: 10, top: 10, bottom: 10),
-            height: model.selectedGK ? 380 : 0,
+            height: model.selectedGK ? 400 : 0,
             width: model.selectedGK ? 300 : 0,
             child: Column(
               children: [
@@ -809,138 +986,16 @@ class PlayerStatsPage extends StatelessWidget {
                     },
                   ),
                 ),
-                Text(
-                  '被シュート',
-                  style: TextStyle(fontSize: 15, color: Colors.black),
-                ),
-                Center(
-                  child: SizedBox(
-                    width: 200,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        ElevatedButton(
-                          onPressed: () {
-                            model.decrementShot();
-                          },
-                          child: Text('-'),
-                        ),
-                        Container(
-                          width: 50,
-                          height: 30,
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Center(
-                            child: Text(
-                              model.shot.toString(),
-                              style: TextStyle(color: Colors.black),
-                            ),
-                          ),
-                        ),
-                        ElevatedButton(
-                          onPressed: () {
-                            model.incrementShot();
-                          },
-                          child: Text('+'),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Text(
-                  '失点',
-                  style: TextStyle(fontSize: 15, color: Colors.black),
-                ),
-                Center(
-                  child: SizedBox(
-                    width: 200,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        ElevatedButton(
-                          onPressed: () {
-                            model.decrementScored();
-                          },
-                          child: Text(
-                            '-',
-                            style: TextStyle(fontSize: 15),
-                          ),
-                        ),
-                        Container(
-                          width: 50,
-                          height: 30,
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Center(
-                            child: Text(
-                              model.scored.toString(),
-                              style: TextStyle(color: Colors.black),
-                            ),
-                          ),
-                        ),
-                        ElevatedButton(
-                          onPressed: () {
-                            model.incrementScored();
-                          },
-                          child: Text(
-                            '+',
-                            style: TextStyle(fontSize: 15),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Text(
-                  '出場回数',
-                  style: TextStyle(fontSize: 15, color: Colors.black),
-                ),
-                Center(
-                  child: SizedBox(
-                    width: 200,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        ElevatedButton(
-                          onPressed: () {
-                            model.decrementParticipation();
-                          },
-                          child: Text(
-                            '-',
-                            style: TextStyle(fontSize: 15),
-                          ),
-                        ),
-                        Container(
-                          width: 50,
-                          height: 30,
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Center(
-                            child: Text(
-                              model.participation.toString(),
-                              style: TextStyle(color: Colors.black),
-                            ),
-                          ),
-                        ),
-                        ElevatedButton(
-                          onPressed: () {
-                            model.incrementParticipation();
-                          },
-                          child: Text(
-                            '+',
-                            style: TextStyle(fontSize: 15),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                button('被シュート', model.incrementShot, model.decrementShot,
+                    model.shot),
+                button('失点', model.incrementScored, model.decrementScored,
+                    model.scored),
+                button('出場回数', model.incrementParticipation,
+                    model.decrementParticipation, model.participation),
+                button('シュート', model.incrementShootGK, model.decrementShootGK,
+                    model.shootGK),
+                button('ゴール', model.incrementGoalGK, model.decrementGoalGK,
+                    model.goalGK),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [

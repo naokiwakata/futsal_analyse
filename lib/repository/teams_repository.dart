@@ -259,7 +259,7 @@ class TeamsRepository {
         'allShoot': 0,
         'allShot': 0,
         'teamsUid': _teams.uid,
-        'category':category.categoryName,
+        'category': category.categoryName,
       },
     );
   }
@@ -484,6 +484,8 @@ class TeamsRepository {
     int scored,
     int shot,
     int participation,
+    int shoot,
+    int goal,
   }) async {
     _firestore
         .collection('teams')
@@ -501,6 +503,8 @@ class TeamsRepository {
         'position': player.position,
         'shot': shot,
         'scored': scored,
+        'shoot': shoot,
+        'goal': goal,
         'participation': participation,
         'teamUid': _teams.uid,
         'categoryUid': category.uid,
