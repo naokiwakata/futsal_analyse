@@ -24,23 +24,24 @@ class RegisterCategoryPage extends StatelessWidget {
         ),
         body: Consumer<RegisterCategoryModel>(
           builder: (context, model, child) {
-            return !model.loadingDate
-                ? model.categoryList.isNotEmpty
-                    ? Container(
-                        child: Scrollbar(
-                          child: ListView(
-                            children: friendList(model, context),
-                          ),
-                        ),
-                      )
-                    : Center(
-                        child: Text('カテゴリーを登録して\n試合の成績を記録しよう'),
-                      )
-                : Center(
-                    child: CircularProgressIndicator(
-                      color: Colors.redAccent,
-                    ),
-                  );
+            if (model.isLoading) {
+              return Center(
+                child: CircularProgressIndicator(
+                  color: Colors.redAccent,
+                ),
+              );
+            }
+            if (model.categoryList.isNotEmpty) {
+              return Scrollbar(
+                child: ListView(
+                  children: categoryList(model, context),
+                ),
+              );
+            } else {
+              return Center(
+                child: Text('カテゴリーを登録して\n試合の成績を記録しよう'),
+              );
+            }
           },
         ),
         floatingActionButton: Consumer<RegisterCategoryModel>(
@@ -65,8 +66,8 @@ class RegisterCategoryPage extends StatelessWidget {
     );
   }
 
-  List<Widget> friendList(RegisterCategoryModel model, BuildContext context) {
-    final friendList = model.categoryList
+  List<Widget> categoryList(RegisterCategoryModel model, BuildContext context) {
+    final categoryList = model.categoryList
         .map(
           (category) => Slidable(
             actionExtentRatio: 0.2,
@@ -77,52 +78,7 @@ class RegisterCategoryPage extends StatelessWidget {
                 color: Colors.red,
                 icon: Icons.delete,
                 onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: Text('本当に削除しますか？'),
-                        actions: [
-                          TextButton(
-                            child: Text('OK'),
-                            onPressed: () async {
-                              Navigator.pop(context);
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    title: Text('本当の本当に削除しますか？'),
-                                    actions: [
-                                      TextButton(
-                                        child: Text('OK'),
-                                        onPressed: () async {
-                                          Navigator.pop(context);
-                                          await model.deleteCategory(category);
-                                          model.getCategory();
-                                        },
-                                      ),
-                                      TextButton(
-                                        child: Text('キャンセル'),
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                      )
-                                    ],
-                                  );
-                                },
-                              );
-                            },
-                          ),
-                          TextButton(
-                            child: Text('キャンセル'),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                          )
-                        ],
-                      );
-                    },
-                  );
+                  showDeleteDialog(context, model, category);
                 },
               ),
             ],
@@ -184,7 +140,57 @@ class RegisterCategoryPage extends StatelessWidget {
           ),
         )
         .toList();
-    return friendList;
+    return categoryList;
+  }
+
+  showDeleteDialog(
+      BuildContext context, RegisterCategoryModel model, Categorys category) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('本当に削除しますか？'),
+          actions: [
+            TextButton(
+              child: Text('OK'),
+              onPressed: () async {
+                Navigator.pop(context);
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text('本当の本当に削除しますか？'),
+                      actions: [
+                        TextButton(
+                          child: Text('OK'),
+                          onPressed: () async {
+                            Navigator.pop(context);
+                            await model.deleteCategory(category);
+                            model.getCategory();
+                          },
+                        ),
+                        TextButton(
+                          child: Text('キャンセル'),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        )
+                      ],
+                    );
+                  },
+                );
+              },
+            ),
+            TextButton(
+              child: Text('キャンセル'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            )
+          ],
+        );
+      },
+    );
   }
 
   showAddCategoryDialog(BuildContext context, RegisterCategoryModel model) {
@@ -287,6 +293,7 @@ class RegisterCategoryPage extends StatelessWidget {
         return Container();
       },
       transitionBuilder: (context, animation1, animation2, widget) {
+        model.categoryName = category.categoryName;
         return Center(
           child: Material(
             type: MaterialType.transparency,
@@ -311,13 +318,11 @@ class RegisterCategoryPage extends StatelessWidget {
                   ),
                   SizedBox(
                     width: 250,
-                    child: TextField(
+                    child: TextFormField(
                       onChanged: (value) {
                         model.categoryName = value;
                       },
-                      decoration: InputDecoration(
-                        hintText: category.categoryName,
-                      ),
+                      initialValue: category.categoryName,
                     ),
                   ),
                   SizedBox(

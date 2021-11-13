@@ -42,11 +42,10 @@ class ProfileSettingPage extends StatelessWidget {
                               builder: (context) {
                                 return AlertDialog(
                                   title: Text('チーム名編集'),
-                                  content: TextField(
-                                    decoration: InputDecoration(
-                                        hintText: model.teamName),
+                                  content: TextFormField(
+                                    initialValue: model.teamName,
                                     onChanged: (value) {
-                                      model.editName = value;
+                                      model.teamName = value;
                                     },
                                   ),
                                   actions: <Widget>[
@@ -59,7 +58,7 @@ class ProfileSettingPage extends StatelessWidget {
                                     TextButton(
                                       child: Text('更新'),
                                       onPressed: () async {
-                                        if (model.editName != '') {
+                                        if (model.teamName != '') {
                                           await model.editTeamName();
                                           Navigator.pop(context);
                                         } else {
